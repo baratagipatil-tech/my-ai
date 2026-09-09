@@ -1,0 +1,6 @@
+.idea/
+build/
+dist/
+.venv/
+*.lnk
+__pycache__/
