@@ -3,4 +3,4 @@ build/
 dist/
 .venv/
 *.lnk
-__pycache__/
+__pycache__
