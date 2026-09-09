@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <title>JARVIS AI</title>
 
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -22,36 +24,54 @@
 
         .app {
             height: 100vh;
-            max-width: 500px;
+            max-width: 520px;
             margin: auto;
+
             display: flex;
             flex-direction: column;
+
             background:
-                radial-gradient(circle at 50% 20%, #12336b 0%, #061329 35%, #020817 75%);
+                radial-gradient(
+                    circle at 50% 15%,
+                    #12366e 0%,
+                    #071936 35%,
+                    #020817 75%
+                );
         }
 
         /* HEADER */
 
         .header {
             height: 85px;
+
             display: flex;
             align-items: center;
+
             padding: 15px 20px;
-            background: rgba(4, 16, 35, 0.9);
-            border-bottom: 1px solid #183b68;
+
+            background: rgba(3, 14, 32, 0.95);
+
+            border-bottom: 1px solid #17477a;
         }
 
         .avatar {
             width: 52px;
             height: 52px;
+
             border-radius: 50%;
-            background: #071d3d;
-            border: 2px solid #00c8ff;
+
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
+
             font-size: 27px;
-            box-shadow: 0 0 18px #008cff;
+
+            background: #071d3d;
+
+            border: 2px solid #00c8ff;
+
+            box-shadow:
+                0 0 18px #008cff;
         }
 
         .title {
@@ -64,87 +84,134 @@
         }
 
         .title p {
-            margin: 3px 0 0;
-            color: #6bbcff;
+            margin: 4px 0 0;
+
+            color: #69bdff;
+
             font-size: 13px;
         }
 
         .status {
             margin-left: auto;
+
             width: 11px;
             height: 11px;
-            background: #00ff88;
+
             border-radius: 50%;
-            box-shadow: 0 0 12px #00ff88;
+
+            background: #00ff88;
+
+            box-shadow:
+                0 0 12px #00ff88;
         }
 
         /* CHAT */
 
         #chat {
             flex: 1;
+
             overflow-y: auto;
+
             padding: 25px 16px 120px;
         }
 
         .message {
             max-width: 82%;
+
             padding: 13px 16px;
+
             margin-bottom: 15px;
+
             border-radius: 18px;
+
             line-height: 1.4;
+
             font-size: 16px;
+
+            word-wrap: break-word;
         }
 
         .ai {
-            background: #12284a;
-            border: 1px solid #214a78;
             margin-right: auto;
-            box-shadow: 0 0 12px rgba(0, 153, 255, 0.12);
+
+            background: #12284a;
+
+            border: 1px solid #214a78;
+
+            box-shadow:
+                0 0 12px rgba(0, 153, 255, 0.12);
         }
 
         .user {
-            background: linear-gradient(135deg, #235eff, #693cff);
             margin-left: auto;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #235eff,
+                    #693cff
+                );
+
             border-bottom-right-radius: 5px;
         }
 
         .time {
             display: block;
+
             margin-top: 5px;
+
             font-size: 10px;
+
             color: #91a9c4;
         }
 
-        /* INPUT AREA */
+        /* INPUT */
 
         .input-area {
             position: fixed;
+
             bottom: 15px;
+
             left: 50%;
+
             transform: translateX(-50%);
-            width: min(470px, 94%);
+
+            width: min(490px, 94%);
+
             padding: 8px;
+
             display: flex;
+
             align-items: center;
+
             gap: 8px;
 
-            background: rgba(8, 23, 47, 0.96);
+            background: rgba(8, 23, 47, 0.97);
+
             border: 1px solid #008cff;
+
             border-radius: 30px;
+
             box-shadow:
-                0 0 15px rgba(0, 140, 255, 0.35),
-                inset 0 0 10px rgba(0, 100, 255, 0.08);
+                0 0 15px rgba(0, 140, 255, 0.35);
         }
 
         #question {
             flex: 1;
+
             min-width: 0;
-            background: transparent;
-            border: none;
-            outline: none;
-            color: white;
-            font-size: 16px;
+
             padding: 13px;
+
+            background: transparent;
+
+            border: none;
+
+            outline: none;
+
+            color: white;
+
+            font-size: 16px;
         }
 
         #question::placeholder {
@@ -154,17 +221,20 @@
         .icon-button {
             width: 48px;
             height: 48px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            font-size: 21px;
-            color: white;
-            background: #142c50;
-        }
 
-        .send {
-            background: linear-gradient(135deg, #087cff, #6b35ff);
-            box-shadow: 0 0 12px rgba(42, 117, 255, 0.6);
+            border-radius: 50%;
+
+            border: none;
+
+            cursor: pointer;
+
+            font-size: 21px;
+
+            color: white;
+
+            background: #142c50;
+
+            flex-shrink: 0;
         }
 
         .mic {
@@ -173,29 +243,72 @@
 
         .mic.listening {
             background: #ff315a;
-            box-shadow: 0 0 20px #ff315a;
+
+            box-shadow:
+                0 0 20px #ff315a;
+
             animation: pulse 1s infinite;
         }
 
-        @keyframes pulse {
-            50% {
-                transform: scale(1.1);
-            }
+        .send {
+            background:
+                linear-gradient(
+                    135deg,
+                    #087cff,
+                    #6b35ff
+                );
+
+            box-shadow:
+                0 0 12px rgba(42, 117, 255, 0.6);
+        }
+
+        .speaker {
+            margin-top: 8px;
+
+            padding: 6px 10px;
+
+            border: 1px solid #268dff;
+
+            border-radius: 12px;
+
+            background: #0c2446;
+
+            color: white;
+
+            cursor: pointer;
+
+            font-size: 13px;
         }
 
         .typing {
             color: #72c8ff;
+
             font-size: 13px;
+
             margin: 5px 0 15px 8px;
         }
+
+        @keyframes pulse {
+
+            50% {
+                transform: scale(1.1);
+            }
+
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
+
 <div class="app">
 
+
     <!-- HEADER -->
+
     <div class="header">
 
         <div class="avatar">
@@ -203,8 +316,11 @@
         </div>
 
         <div class="title">
+
             <h1>JARVIS</h1>
+
             <p>Your AI Assistant</p>
+
         </div>
 
         <div class="status"></div>
@@ -213,253 +329,478 @@
 
 
     <!-- CHAT -->
+
     <div id="chat">
 
         <div class="message ai">
-            Hello! How can I help you today?
-            <span class="time">JARVIS</span>
+
+            Hello! I am JARVIS.
+            How can I help you?
+
+            <span class="time">
+                JARVIS
+            </span>
+
         </div>
 
     </div>
 
 
     <!-- INPUT -->
+
     <div class="input-area">
 
         <button
-            class="icon-button mic"
             id="micButton"
+            class="icon-button mic"
             onclick="startVoice()">
+
             🎤
+
         </button>
+
 
         <input
             id="question"
             type="text"
-            placeholder="Type your message..."
+            placeholder="Ask JARVIS..."
+            autocomplete="off"
             onkeydown="handleEnter(event)"
         >
+
 
         <button
             class="icon-button send"
             onclick="askAI()">
+
             ➤
+
         </button>
 
     </div>
+
 
 </div>
 
 
 <script>
 
-    // ENTER KEY
-    function handleEnter(event) {
 
-        if (event.key === "Enter") {
-            askAI();
-        }
+/* ENTER KEY */
+
+function handleEnter(event) {
+
+    if (event.key === "Enter") {
+
+        askAI();
+
+    }
+
+}
+
+
+/* ASK AI */
+
+async function askAI() {
+
+    const input =
+        document.getElementById("question");
+
+    const question =
+        input.value.trim();
+
+
+    if (!question) {
+
+        return;
 
     }
 
 
-    // ASK AI
-    async function askAI() {
+    /* SHOW USER MESSAGE */
 
-        const input = document.getElementById("question");
-        const question = input.value.trim();
+    addMessage(
+        question,
+        "user"
+    );
 
-        if (!question) {
-            return;
-        }
 
-        // Show user message
-        addMessage(question, "user");
+    input.value = "";
 
-        input.value = "";
 
-        showTyping();
+    /* SHOW THINKING */
 
-        try {
+    showTyping();
 
-            const response = await fetch("/ask", {
+
+    try {
+
+        const response =
+            await fetch("/ask", {
 
                 method: "POST",
 
                 headers: {
-                    "Content-Type": "application/json"
+
+                    "Content-Type":
+                        "application/json"
+
                 },
 
                 body: JSON.stringify({
+
                     question: question
+
                 })
 
             });
 
-            const data = await response.json();
 
-            removeTyping();
+        const data =
+            await response.json();
 
-            // Show AI response
-            addMessage(data.answer, "ai");
 
-            // SPEAK AI ANSWER
-            speak(data.answer);
+        removeTyping();
 
-        }
 
-        catch (error) {
+        /* SHOW AI ANSWER */
 
-            removeTyping();
+        addMessage(
+            data.answer,
+            "ai"
+        );
 
-            addMessage(
-                "Sorry, I couldn't connect to the AI.",
-                "ai"
-            );
 
-            console.error(error);
+        /* GENERATE VOICE */
 
-        }
+        speakAI(data.answer);
+
+
+    }
+
+    catch (error) {
+
+        removeTyping();
+
+        addMessage(
+            "I couldn't connect to the server.",
+            "ai"
+        );
+
+        console.error(error);
+
+    }
+
+}
+
+
+/* ADD MESSAGE */
+
+function addMessage(text, type) {
+
+    const chat =
+        document.getElementById("chat");
+
+
+    const message =
+        document.createElement("div");
+
+
+    message.className =
+        "message " + type;
+
+
+    const textElement =
+        document.createElement("div");
+
+    textElement.innerText =
+        text;
+
+
+    message.appendChild(
+        textElement
+    );
+
+
+    const time =
+        document.createElement("span");
+
+    time.className =
+        "time";
+
+
+    time.innerText =
+        type === "ai"
+            ? "JARVIS"
+            : "You";
+
+
+    message.appendChild(
+        time
+    );
+
+
+    /* SPEAKER BUTTON FOR AI */
+
+    if (type === "ai") {
+
+        const speaker =
+            document.createElement("button");
+
+
+        speaker.className =
+            "speaker";
+
+
+        speaker.innerText =
+            "🔊 Speak";
+
+
+        speaker.onclick =
+            function () {
+
+                speakAI(text);
+
+            };
+
+
+        message.appendChild(
+            speaker
+        );
 
     }
 
 
-    // ADD MESSAGE
-    function addMessage(text, type) {
+    chat.appendChild(
+        message
+    );
 
-        const chat = document.getElementById("chat");
 
-        const message = document.createElement("div");
+    chat.scrollTop =
+        chat.scrollHeight;
 
-        message.className = "message " + type;
+}
 
-        message.innerHTML =
-            text +
-            '<span class="time">' +
-            (type === "ai" ? "JARVIS" : "You") +
-            '</span>';
 
-        chat.appendChild(message);
+/* TYPING */
 
-        chat.scrollTop = chat.scrollHeight;
+function showTyping() {
+
+    const chat =
+        document.getElementById("chat");
+
+
+    const typing =
+        document.createElement("div");
+
+
+    typing.id =
+        "typing";
+
+
+    typing.className =
+        "typing";
+
+
+    typing.innerText =
+        "JARVIS is thinking...";
+
+
+    chat.appendChild(
+        typing
+    );
+
+
+    chat.scrollTop =
+        chat.scrollHeight;
+
+}
+
+
+function removeTyping() {
+
+    const typing =
+        document.getElementById("typing");
+
+
+    if (typing) {
+
+        typing.remove();
+
+    }
+
+}
+
+
+/* MICROPHONE */
+
+function startVoice() {
+
+    const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
+
+
+    if (!SpeechRecognition) {
+
+        alert(
+            "Voice recognition is not supported on this browser. Try Chrome."
+        );
+
+        return;
 
     }
 
 
-    // TYPING INDICATOR
-    function showTyping() {
-
-        const chat = document.getElementById("chat");
-
-        const typing = document.createElement("div");
-
-        typing.id = "typing";
-        typing.className = "typing";
-
-        typing.innerText = "JARVIS is thinking...";
-
-        chat.appendChild(typing);
-
-        chat.scrollTop = chat.scrollHeight;
-
-    }
+    const recognition =
+        new SpeechRecognition();
 
 
-    function removeTyping() {
-
-        const typing = document.getElementById("typing");
-
-        if (typing) {
-            typing.remove();
-        }
-
-    }
+    recognition.lang =
+        "en-US";
 
 
-    // VOICE INPUT
-    function startVoice() {
-
-        const SpeechRecognition =
-            window.SpeechRecognition ||
-            window.webkitSpeechRecognition;
-
-        if (!SpeechRecognition) {
-
-            alert(
-                "Voice recognition is not supported in this browser."
-            );
-
-            return;
-        }
-
-        const recognition = new SpeechRecognition();
-
-        recognition.lang = "en-US";
-
-        recognition.continuous = false;
-
-        recognition.interimResults = false;
+    recognition.continuous =
+        false;
 
 
-        const micButton =
-            document.getElementById("micButton");
-
-        micButton.classList.add("listening");
-
-        recognition.start();
+    recognition.interimResults =
+        false;
 
 
-        recognition.onresult = function(event) {
+    const micButton =
+        document.getElementById(
+            "micButton"
+        );
+
+
+    micButton.classList.add(
+        "listening"
+    );
+
+
+    recognition.start();
+
+
+    recognition.onresult =
+        function(event) {
 
             const question =
-                event.results[0][0].transcript;
+                event.results[0][0]
+                    .transcript;
 
-            document.getElementById("question").value =
+
+            document.getElementById(
+                "question"
+            ).value =
                 question;
+
 
             askAI();
 
         };
 
 
-        recognition.onerror = function(event) {
+    recognition.onerror =
+        function(event) {
 
-            console.log("Voice error:", event.error);
+            console.log(
+                "Microphone error:",
+                event.error
+            );
+
+            alert(
+                "Microphone error: " +
+                event.error
+            );
 
         };
 
 
-        recognition.onend = function() {
+    recognition.onend =
+        function() {
 
-            micButton.classList.remove("listening");
+            micButton.classList.remove(
+                "listening"
+            );
 
         };
 
+}
+
+
+/* SERVER TEXT → VOICE */
+
+async function speakAI(text) {
+
+    try {
+
+        const response =
+            await fetch("/speak", {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "application/json"
+
+                },
+
+                body: JSON.stringify({
+
+                    text: text
+
+                })
+
+            });
+
+
+        if (!response.ok) {
+
+            console.log(
+                "Voice generation failed."
+            );
+
+            return;
+
+        }
+
+
+        const audioBlob =
+            await response.blob();
+
+
+        const audioURL =
+            URL.createObjectURL(
+                audioBlob
+            );
+
+
+        const audio =
+            new Audio(audioURL);
+
+
+        audio.play();
+
+
     }
 
+    catch (error) {
 
-    // AI VOICE
-    function speak(text) {
-
-        // Stop previous speech
-        window.speechSynthesis.cancel();
-
-        const speech =
-            new SpeechSynthesisUtterance(text);
-
-        speech.lang = "en-US";
-
-        speech.rate = 0.95;
-
-        speech.pitch = 1;
-
-        speech.volume = 1;
-
-        window.speechSynthesis.speak(speech);
+        console.error(
+            "Voice error:",
+            error
+        );
 
     }
+
+}
+
 
 </script>
 
+
 </body>
+
 </html>
