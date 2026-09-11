@@ -1,0 +1,62 @@
+{
+    "class_9": {
+        "monday": [
+        "1st period",    "science","akshata madam",
+         "2nd period", "maths","mahesh sir",
+         "3rd period", "hindi","shridevi madam",
+         "4th period", "english","prakash sir",
+         "5th period", "kannada","nandini madam",
+         "6th period","social science","anandh sir",
+          "7th period","P.E(sport)","ali sir",
+         "8th period", "social science","anandh sir"
+        ],
+
+        "tuesday": [
+            "1st period"      ,"science","akshata madam",
+            "2nd period"    ,"maths","mahesh sir",
+            "3rd period"   ,"hindi","shridevi madam",
+            "4th period"  ,"english","prakash sir",
+            "5th period"  ,"G.K","akshata madam",
+            "6th period"   ,"kannada","nandini madam",
+            "7th period"  ,"social science","anandh sir",
+            "8th period"  ,"english grammer","prakash sir"
+        ],
+
+      "wensday": [
+        "1st period",    "science","akshata madam",
+         "2nd period", "maths","mahesh sir",
+         "3rd period", "hindi","shridevi madam",
+         "4th period", "english","prakash sir",
+         "5th period", "kannada","nandini madam",
+         "6th period","social science","anandh sir",
+          "7th period","P.E(sport)","ali sir",
+         "8th period", "social science","anandh sir"
+              ],
+      "thursday": [
+        "1st period"      ,"science","akshata madam",
+            "2nd period"    ,"maths","mahesh sir",
+            "3rd period"   ,"hindi","shridevi madam",
+            "4th period"  ,"english","prakash sir",
+            "5th period"  ,"kannada","nandini madam",
+            "6th period"   ,"kannada","nandini madam",
+            "7th period"  ,"social science","anandh sir",
+            "8th period"  ,"english grammer","prakash sir"
+      ],
+      "friday": [
+        "1st period",    "science","akshata madam",
+         "2nd period", "maths","mahesh sir",
+         "3rd period", "hindi","shridevi madam",
+         "4th period", "english","prakash sir",
+         "5th period"  ,"social science","anandh sir",
+        "6th period"  ,"english grammer","prakash sir",
+        "7th period"  ,"kannada","nandini madam",
+        "8th period"  ,"computer","akshata madam"
+      ],
+      "saturday": [
+        "3rd period", "hindi","shridevi madam",
+        "7th period"  ,"kannada","nandini madam",
+        "8th period"  ,"computer","akshata madam",
+        "5th period"  ,"social science","anandh sir"
+      ]
+    }
+}
