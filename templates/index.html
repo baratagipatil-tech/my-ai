@@ -170,4 +170,827 @@
 
             border: 1px solid #4b6d94;
 
-            border-ra
+            border-radius: 30px;
+
+            transition: 0.25s;
+        }
+
+        .slider:before {
+            content: "";
+
+            position: absolute;
+
+            width: 18px;
+            height: 18px;
+
+            left: 3px;
+            top: 3px;
+
+            background: white;
+
+            border-radius: 50%;
+
+            transition: 0.25s;
+        }
+
+        .switch input:checked + .slider {
+            background: #087cff;
+
+            border-color: #00c8ff;
+
+            box-shadow:
+                0 0 12px rgba(0, 200, 255, 0.5);
+        }
+
+        .switch input:checked + .slider:before {
+            transform: translateX(22px);
+        }
+
+        /* CHAT */
+
+        #chat {
+            flex: 1;
+
+            overflow-y: auto;
+
+            padding: 25px 16px 120px;
+        }
+
+        .message {
+            max-width: 82%;
+
+            padding: 13px 16px;
+
+            margin-bottom: 15px;
+
+            border-radius: 18px;
+
+            line-height: 1.4;
+
+            font-size: 16px;
+
+            word-wrap: break-word;
+        }
+
+        .ai {
+            margin-right: auto;
+
+            background: #12284a;
+
+            border: 1px solid #214a78;
+
+            box-shadow:
+                0 0 12px rgba(0, 153, 255, 0.12);
+        }
+
+        .user {
+            margin-left: auto;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #235eff,
+                    #693cff
+                );
+
+            border-bottom-right-radius: 5px;
+        }
+
+        .time {
+            display: block;
+
+            margin-top: 5px;
+
+            font-size: 10px;
+
+            color: #91a9c4;
+        }
+
+        /* INPUT */
+
+        .input-area {
+            position: fixed;
+
+            bottom: 15px;
+
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            width: min(490px, 94%);
+
+            padding: 8px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            background: rgba(8, 23, 47, 0.97);
+
+            border: 1px solid #008cff;
+
+            border-radius: 30px;
+
+            box-shadow:
+                0 0 15px rgba(0, 140, 255, 0.35);
+        }
+
+        #question {
+            flex: 1;
+
+            min-width: 0;
+
+            padding: 13px;
+
+            background: transparent;
+
+            border: none;
+
+            outline: none;
+
+            color: white;
+
+            font-size: 16px;
+        }
+
+        #question::placeholder {
+            color: #7991ad;
+        }
+
+        .icon-button {
+            width: 48px;
+            height: 48px;
+
+            border-radius: 50%;
+
+            border: none;
+
+            cursor: pointer;
+
+            font-size: 21px;
+
+            color: white;
+
+            background: #142c50;
+
+            flex-shrink: 0;
+        }
+
+        .mic {
+            border: 1px solid #00c8ff;
+        }
+
+        .mic.listening {
+            background: #ff315a;
+
+            box-shadow:
+                0 0 20px #ff315a;
+
+            animation: pulse 1s infinite;
+        }
+
+        .send {
+            background:
+                linear-gradient(
+                    135deg,
+                    #087cff,
+                    #6b35ff
+                );
+
+            box-shadow:
+                0 0 12px rgba(42, 117, 255, 0.6);
+        }
+
+        .speaker {
+            margin-top: 8px;
+
+            padding: 6px 10px;
+
+            border: 1px solid #268dff;
+
+            border-radius: 12px;
+
+            background: #0c2446;
+
+            color: white;
+
+            cursor: pointer;
+
+            font-size: 13px;
+        }
+
+        .typing {
+            color: #72c8ff;
+
+            font-size: 13px;
+
+            margin: 5px 0 15px 8px;
+        }
+
+        @keyframes pulse {
+
+            50% {
+                transform: scale(1.1);
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <div class="avatar">
+            🤖
+        </div>
+
+        <div class="title">
+
+            <h1>JARVIS</h1>
+
+            <p>Your AI Assistant</p>
+
+        </div>
+
+        <div class="status"></div>
+
+    </div>
+
+
+    <!-- INTERNET CONTROL -->
+
+    <div class="internet-control">
+
+        <span class="internet-label">
+            Internet
+        </span>
+
+        <label class="switch">
+
+            <input
+                type="checkbox"
+                id="internetToggle"
+                checked
+                onchange="updateInternetStatus()"
+            >
+
+            <span class="slider"></span>
+
+        </label>
+
+        <span
+            id="internetStatus"
+            class="internet-status on"
+        >
+            ON
+        </span>
+
+    </div>
+
+
+    <!-- CHAT -->
+
+    <div id="chat">
+
+        <div class="message ai">
+
+            Hello! I am JARVIS.
+            How can I help you?
+
+            <span class="time">
+                JARVIS
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- INPUT -->
+
+    <div class="input-area">
+
+        <button
+            id="micButton"
+            class="icon-button mic"
+            onclick="startVoice()"
+        >
+
+            🎤
+
+        </button>
+
+
+        <input
+            id="question"
+            type="text"
+            placeholder="Ask JARVIS..."
+            autocomplete="off"
+            onkeydown="handleEnter(event)"
+        >
+
+
+        <button
+            class="icon-button send"
+            onclick="askAI()"
+        >
+
+            ➤
+
+        </button>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+
+/* --------------------------------
+   INTERNET STATUS
+-------------------------------- */
+
+function updateInternetStatus() {
+
+    const toggle =
+        document.getElementById("internetToggle");
+
+    const status =
+        document.getElementById("internetStatus");
+
+
+    if (toggle.checked) {
+
+        status.innerText = "ON";
+
+        status.className =
+            "internet-status on";
+
+    } else {
+
+        status.innerText = "OFF";
+
+        status.className =
+            "internet-status off";
+
+    }
+
+}
+
+
+/* --------------------------------
+   ENTER KEY
+-------------------------------- */
+
+function handleEnter(event) {
+
+    if (event.key === "Enter") {
+
+        askAI();
+
+    }
+
+}
+
+
+/* --------------------------------
+   ASK AI
+-------------------------------- */
+
+async function askAI() {
+
+    const input =
+        document.getElementById("question");
+
+    const question =
+        input.value.trim();
+
+
+    if (!question) {
+
+        return;
+
+    }
+
+
+    /* GET INTERNET SETTING */
+
+    const internetEnabled =
+        document.getElementById(
+            "internetToggle"
+        ).checked;
+
+
+    /* SHOW USER MESSAGE */
+
+    addMessage(
+        question,
+        "user"
+    );
+
+
+    input.value = "";
+
+
+    /* SHOW THINKING */
+
+    showTyping();
+
+
+    try {
+
+        const response =
+            await fetch("/ask", {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "application/json"
+
+                },
+
+                body: JSON.stringify({
+
+                    question: question,
+
+                    internet: internetEnabled
+
+                })
+
+            });
+
+
+        const data =
+            await response.json();
+
+
+        removeTyping();
+
+
+        /* SHOW AI ANSWER */
+
+        addMessage(
+            data.answer,
+            "ai"
+        );
+
+
+        /* GENERATE VOICE */
+
+        speakAI(data.answer);
+
+
+    }
+
+    catch (error) {
+
+        removeTyping();
+
+        addMessage(
+            "I couldn't connect to the server.",
+            "ai"
+        );
+
+        console.error(error);
+
+    }
+
+}
+
+
+/* --------------------------------
+   ADD MESSAGE
+-------------------------------- */
+
+function addMessage(text, type) {
+
+    const chat =
+        document.getElementById("chat");
+
+
+    const message =
+        document.createElement("div");
+
+
+    message.className =
+        "message " + type;
+
+
+    const textElement =
+        document.createElement("div");
+
+
+    textElement.innerText =
+        text;
+
+
+    message.appendChild(
+        textElement
+    );
+
+
+    const time =
+        document.createElement("span");
+
+
+    time.className =
+        "time";
+
+
+    time.innerText =
+        type === "ai"
+            ? "JARVIS"
+            : "You";
+
+
+    message.appendChild(
+        time
+    );
+
+
+    /* SPEAKER BUTTON FOR AI */
+
+    if (type === "ai") {
+
+        const speaker =
+            document.createElement("button");
+
+
+        speaker.className =
+            "speaker";
+
+
+        speaker.innerText =
+            "🔊 Speak";
+
+
+        speaker.onclick =
+            function () {
+
+                speakAI(text);
+
+            };
+
+
+        message.appendChild(
+            speaker
+        );
+
+    }
+
+
+    chat.appendChild(
+        message
+    );
+
+
+    chat.scrollTop =
+        chat.scrollHeight;
+
+}
+
+
+/* --------------------------------
+   TYPING
+-------------------------------- */
+
+function showTyping() {
+
+    const chat =
+        document.getElementById("chat");
+
+
+    const typing =
+        document.createElement("div");
+
+
+    typing.id =
+        "typing";
+
+
+    typing.className =
+        "typing";
+
+
+    typing.innerText =
+        "JARVIS is thinking...";
+
+
+    chat.appendChild(
+        typing
+    );
+
+
+    chat.scrollTop =
+        chat.scrollHeight;
+
+}
+
+
+function removeTyping() {
+
+    const typing =
+        document.getElementById("typing");
+
+
+    if (typing) {
+
+        typing.remove();
+
+    }
+
+}
+
+
+/* --------------------------------
+   MICROPHONE
+-------------------------------- */
+
+function startVoice() {
+
+    const SpeechRecognition =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
+
+
+    if (!SpeechRecognition) {
+
+        alert(
+            "Voice recognition is not supported on this browser. Try Chrome."
+        );
+
+        return;
+
+    }
+
+
+    const recognition =
+        new SpeechRecognition();
+
+
+    recognition.lang =
+        "en-US";
+
+
+    recognition.continuous =
+        false;
+
+
+    recognition.interimResults =
+        false;
+
+
+    const micButton =
+        document.getElementById(
+            "micButton"
+        );
+
+
+    micButton.classList.add(
+        "listening"
+    );
+
+
+    recognition.start();
+
+
+    recognition.onresult =
+        function(event) {
+
+            const question =
+                event.results[0][0]
+                    .transcript;
+
+
+            document.getElementById(
+                "question"
+            ).value =
+                question;
+
+
+            askAI();
+
+        };
+
+
+    recognition.onerror =
+        function(event) {
+
+            console.log(
+                "Microphone error:",
+                event.error
+            );
+
+            alert(
+                "Microphone error: " +
+                event.error
+            );
+
+        };
+
+
+    recognition.onend =
+        function() {
+
+            micButton.classList.remove(
+                "listening"
+            );
+
+        };
+
+}
+
+
+/* --------------------------------
+   SERVER TEXT → VOICE
+-------------------------------- */
+
+async function speakAI(text) {
+
+    try {
+
+        const response =
+            await fetch("/speak", {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "application/json"
+
+                },
+
+                body: JSON.stringify({
+
+                    text: text
+
+                })
+
+            });
+
+
+        if (!response.ok) {
+
+            console.log(
+                "Voice generation failed."
+            );
+
+            return;
+
+        }
+
+
+        const audioBlob =
+            await response.blob();
+
+
+        const audioURL =
+            URL.createObjectURL(
+                audioBlob
+            );
+
+
+        const audio =
+            new Audio(audioURL);
+
+
+        audio.play();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Voice error:",
+            error
+        );
+
+    }
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
+```
