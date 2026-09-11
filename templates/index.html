@@ -521,16 +521,31 @@
 
 
 /* --------------------------------
+   VOICE CONTROL
+-------------------------------- */
+
+let currentAudio = null;
+
+let voiceBusy = false;
+
+let recognitionActive = false;
+
+
+/* --------------------------------
    INTERNET STATUS
 -------------------------------- */
 
 function updateInternetStatus() {
 
     const toggle =
-        document.getElementById("internetToggle");
+        document.getElementById(
+            "internetToggle"
+        );
 
     const status =
-        document.getElementById("internetStatus");
+        document.getElementById(
+            "internetStatus"
+        );
 
 
     if (toggle.checked) {
@@ -574,7 +589,9 @@ function handleEnter(event) {
 async function askAI() {
 
     const input =
-        document.getElementById("question");
+        document.getElementById(
+            "question"
+        );
 
     const question =
         input.value.trim();
@@ -585,6 +602,11 @@ async function askAI() {
         return;
 
     }
+
+
+    /* STOP CURRENT VOICE */
+
+    stopCurrentVoice();
 
 
     /* GET INTERNET SETTING */
@@ -681,11 +703,15 @@ async function askAI() {
 function addMessage(text, type) {
 
     const chat =
-        document.getElementById("chat");
+        document.getElementById(
+            "chat"
+        );
 
 
     const message =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
 
     message.className =
@@ -693,7 +719,9 @@ function addMessage(text, type) {
 
 
     const textElement =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
 
     textElement.innerText =
@@ -706,7 +734,9 @@ function addMessage(text, type) {
 
 
     const time =
-        document.createElement("span");
+        document.createElement(
+            "span"
+        );
 
 
     time.className =
@@ -729,7 +759,9 @@ function addMessage(text, type) {
     if (type === "ai") {
 
         const speaker =
-            document.createElement("button");
+            document.createElement(
+                "button"
+            );
 
 
         speaker.className =
@@ -773,11 +805,15 @@ function addMessage(text, type) {
 function showTyping() {
 
     const chat =
-        document.getElementById("chat");
+        document.getElementById(
+            "chat"
+        );
 
 
     const typing =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
 
     typing.id =
@@ -806,7 +842,9 @@ function showTyping() {
 function removeTyping() {
 
     const typing =
-        document.getElementById("typing");
+        document.getElementById(
+            "typing"
+        );
 
 
     if (typing) {
@@ -823,6 +861,15 @@ function removeTyping() {
 -------------------------------- */
 
 function startVoice() {
+
+    /* PREVENT DOUBLE TAP */
+
+    if (recognitionActive) {
+
+        return;
+
+    }
+
 
     const SpeechRecognition =
         window.SpeechRecognition ||
@@ -862,6 +909,9 @@ function startVoice() {
         );
 
 
+    recognitionActive = true;
+
+
     micButton.classList.add(
         "listening"
     );
@@ -897,16 +947,14 @@ function startVoice() {
                 event.error
             );
 
-            alert(
-                "Microphone error: " +
-                event.error
-            );
-
         };
 
 
     recognition.onend =
         function() {
+
+            recognitionActive = false;
+
 
             micButton.classList.remove(
                 "listening"
@@ -918,10 +966,48 @@ function startVoice() {
 
 
 /* --------------------------------
+   STOP CURRENT VOICE
+-------------------------------- */
+
+function stopCurrentVoice() {
+
+    if (currentAudio) {
+
+        currentAudio.pause();
+
+        currentAudio.currentTime = 0;
+
+        currentAudio = null;
+
+    }
+
+    voiceBusy = false;
+
+}
+
+
+/* --------------------------------
    SERVER TEXT → VOICE
 -------------------------------- */
 
 async function speakAI(text) {
+
+    /* STOP PREVIOUS AUDIO */
+
+    stopCurrentVoice();
+
+
+    /* PREVENT MULTIPLE VOICE REQUESTS */
+
+    if (voiceBusy) {
+
+        return;
+
+    }
+
+
+    voiceBusy = true;
+
 
     try {
 
@@ -952,6 +1038,8 @@ async function speakAI(text) {
                 "Voice generation failed."
             );
 
+            voiceBusy = false;
+
             return;
 
         }
@@ -971,7 +1059,39 @@ async function speakAI(text) {
             new Audio(audioURL);
 
 
-        audio.play();
+        currentAudio =
+            audio;
+
+
+        audio.onended =
+            function() {
+
+                URL.revokeObjectURL(
+                    audioURL
+                );
+
+                currentAudio = null;
+
+                voiceBusy = false;
+
+            };
+
+
+        audio.onerror =
+            function() {
+
+                URL.revokeObjectURL(
+                    audioURL
+                );
+
+                currentAudio = null;
+
+                voiceBusy = false;
+
+            };
+
+
+        await audio.play();
 
     }
 
@@ -981,6 +1101,10 @@ async function speakAI(text) {
             "Voice error:",
             error
         );
+
+        currentAudio = null;
+
+        voiceBusy = false;
 
     }
 
